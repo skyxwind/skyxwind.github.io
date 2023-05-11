@@ -4,18 +4,165 @@
 
 <head>
 
-<title>wooow</title>
+    <meta charset="UTF-8">
+
+    <title>打磚塊遊戲</title>
+
+    <style>
+
+        canvas {
+
+            border: 1px solid #000;
+
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<h1>上這網站幹嘛？</h1>
+    <canvas id="canvas" width="480" height="320"></canvas>
 
-<p>how old are you?<br>怎麼老是你</p>
+    <script>
 
-<p>還看什麼<br>再看你也不會得到任何東西</p>
+        // 取得 canvas 元素和 2D 繪圖環境
 
-</body>
+        var canvas = document.getElementById("canvas");
 
-</html>
+        var ctx = canvas.getContext("2d");
+
+        // 設定球、撞板、磚塊等初始值
+
+        var ballRadius = 10;
+
+        var x = canvas.width/2;
+
+        var y = canvas.height-30;
+
+        var dx = 2;
+
+        var dy = -2;
+
+        var paddleHeight = 10;
+
+        var paddleWidth = 75;
+
+        var paddleX = (canvas.width-paddleWidth)/2;
+
+        var rightPressed = false;
+
+        var leftPressed = false;
+
+        var brickRowCount = 3;
+
+        var brickColumnCount = 5;
+
+        var brickWidth = 75;
+
+        var brickHeight = 20;
+
+        var brickPadding = 10;
+
+        var brickOffsetTop = 30;
+
+        var brickOffsetLeft = 30;
+
+        var score = 0;
+
+        // 建立磚塊的二維陣列
+
+        var bricks = [];
+
+        for(var c=0; c<brickColumnCount; c++) {
+
+            bricks[c] = [];
+
+            for(var r=0; r<brickRowCount; r++) {
+
+                bricks[c][r] = { x: 0, y: 0, status: 1 };
+
+            }
+
+        }
+
+        // 繪製球
+
+        function drawBall() {
+
+            ctx.beginPath();
+
+            ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+
+            ctx.fillStyle = "#0095DD";
+
+            ctx.fill();
+
+            ctx.closePath();
+
+        }
+
+        // 繪製撞板
+
+        function drawPaddle() {
+
+            ctx.beginPath();
+
+            ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+
+            ctx.fillStyle = "#0095DD";
+
+            ctx.fill();
+
+            ctx.closePath();
+
+        }
+
+        // 繪製磚塊
+
+        function drawBricks() {
+
+            for(var c=0; c<brickColumnCount; c++) {
+
+                for(var r=0; r<brickRowCount; r++) {
+
+                    if(bricks[c][r].status == 1) {
+
+                        var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+
+                        var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+
+                        bricks[c][r].x = brickX;
+
+                        bricks[c][r].y = brickY;
+
+                        ctx.beginPath();
+
+                        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+
+                        ctx.fillStyle = "#0095DD";
+
+                        ctx.fill();
+
+                        ctx.closePath();
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        // 碰撞偵測
+
+        function collisionDetection() {
+
+            for(var c=0; c<brickColumnCount; c++) {
+
+                for(var r=0; r<brickRowCount; r++) {
+
+                    var b = bricks[c][r];
+
+                    if(b.status == 
+
