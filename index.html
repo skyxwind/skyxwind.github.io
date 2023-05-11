@@ -1,18 +1,112 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="zh-TW">
 
 <head>
 
     <meta charset="UTF-8">
 
-    <title>打磚塊遊戲</title>
+    <title>test</title>
 
     <style>
 
-        canvas {
+        body {
 
-            border: 1px solid #000;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background-color: #f5f5f5;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+        header {
+
+            background-color: #4CAF50;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+
+        }
+
+        h1 {
+
+            font-size: 36px;
+
+            margin-top: 0;
+
+        }
+
+        img {
+
+            display: block;
+
+            margin: auto;
+
+            width: 200px;
+
+            height: 200px;
+
+            border-radius: 50%;
+
+            margin-top: 30px;
+
+            box-shadow: 0 0 10px #888888;
+
+        }
+
+        section {
+
+            background-color: white;
+
+            margin: 20px;
+
+            padding: 20px;
+
+            box-shadow: 0 0 10px #888888;
+
+        }
+
+        h2 {
+
+            font-size: 24px;
+
+            margin-top: 0;
+
+        }
+
+        ul {
+
+            list-style: none;
+
+            padding: 0;
+
+        }
+
+        li {
+
+            margin-bottom: 10px;
+
+        }
+
+        li:before {
+
+            content: "\2022";
+
+            color: #4CAF50;
+
+            font-weight: bold;
+
+            display: inline-block;
+
+            width: 1em;
+
+            margin-left: -1em;
 
         }
 
@@ -22,147 +116,64 @@
 
 <body>
 
-    <canvas id="canvas" width="480" height="320"></canvas>
+    <header>
 
-    <script>
+        <h1>我的自我介紹</h1>
 
-        // 取得 canvas 元素和 2D 繪圖環境
+    </header>
 
-        var canvas = document.getElementById("canvas");
+    <main>
 
-        var ctx = canvas.getContext("2d");
+        <img src="my-photo.jpg" alt="我的照片">
 
-        // 設定球、撞板、磚塊等初始值
+        <section>
 
-        var ballRadius = 10;
+            <h2>個人資訊</h2>
 
-        var x = canvas.width/2;
+            <ul>
 
-        var y = canvas.height-30;
+                <li>姓名：小明</li>
 
-        var dx = 2;
+                <li>年齡：25 歲</li>
 
-        var dy = -2;
+                <li>職業：軟體工程師</li>
 
-        var paddleHeight = 10;
+                <li>居住地：台灣</li>
 
-        var paddleWidth = 75;
+            </ul>
 
-        var paddleX = (canvas.width-paddleWidth)/2;
+        </section>
 
-        var rightPressed = false;
+        <section>
 
-        var leftPressed = false;
+            <h2>教育背景</h2>
 
-        var brickRowCount = 3;
+            <ul>
 
-        var brickColumnCount = 5;
+                <li>學歷：碩士</li>
 
-        var brickWidth = 75;
+                <li>學校：台灣大學</li>
 
-        var brickHeight = 20;
+                <li>專業：資訊工程</li>
 
-        var brickPadding = 10;
+                <li>畢業年份：2020 年</li>
 
-        var brickOffsetTop = 30;
+            </ul>
 
-        var brickOffsetLeft = 30;
+        </section>
 
-        var score = 0;
+        <section>
 
-        // 建立磚塊的二維陣列
+            <h2>工作經驗</h2>
 
-        var bricks = [];
+            <ul>
 
-        for(var c=0; c<brickColumnCount; c++) {
+                <li>公司名稱：ABC 公司</li>
 
-            bricks[c] = [];
+                <li>職位：軟體工程師</li>
 
-            for(var r=0; r<brickRowCount; r++) {
+                <li>任職時間：2020 年至今</li>
 
-                bricks[c][r] = { x: 0, y: 0, status: 1 };
+                <li>工作
 
-            }
-
-        }
-
-        // 繪製球
-
-        function drawBall() {
-
-            ctx.beginPath();
-
-            ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-
-            ctx.fillStyle = "#0095DD";
-
-            ctx.fill();
-
-            ctx.closePath();
-
-        }
-
-        // 繪製撞板
-
-        function drawPaddle() {
-
-            ctx.beginPath();
-
-            ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-
-            ctx.fillStyle = "#0095DD";
-
-            ctx.fill();
-
-            ctx.closePath();
-
-        }
-
-        // 繪製磚塊
-
-        function drawBricks() {
-
-            for(var c=0; c<brickColumnCount; c++) {
-
-                for(var r=0; r<brickRowCount; r++) {
-
-                    if(bricks[c][r].status == 1) {
-
-                        var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-
-                        var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-
-                        bricks[c][r].x = brickX;
-
-                        bricks[c][r].y = brickY;
-
-                        ctx.beginPath();
-
-                        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-
-                        ctx.fillStyle = "#0095DD";
-
-                        ctx.fill();
-
-                        ctx.closePath();
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        // 碰撞偵測
-
-        function collisionDetection() {
-
-            for(var c=0; c<brickColumnCount; c++) {
-
-                for(var r=0; r<brickRowCount; r++) {
-
-                    var b = bricks[c][r];
-
-                    if(b.status == 
-
+                
