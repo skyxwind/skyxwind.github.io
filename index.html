@@ -8,6 +8,9 @@
 <meta name="color-scheme" content="light dark">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>療癒番茄鐘</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Iansui&family=Huninn&display=swap">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍅%3C/text%3E%3C/svg%3E">
 <style>
 :root{color-scheme:light dark;--bgf:#F7F3EE;--bgs:#EEF4F0;--bgl:#EFF3F7;--acf:#E8A598;--acs:#9DBFA8;--acl:#9DB4CC;--fg:#5C534D;--fg2:#746A64;--on:#3A322D;--card:rgba(255,255,255,.55);--ring:clamp(200px,min(72vw,50dvh),340px)}
@@ -16,7 +19,7 @@
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 [data-phase=focus]{--bg:var(--bgf);--ac:var(--acf)}[data-phase=short]{--bg:var(--bgs);--ac:var(--acs)}[data-phase=long]{--bg:var(--bgl);--ac:var(--acl)}
 *{box-sizing:border-box}
-body{margin:0;min-height:100dvh;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;transition:background .5s,color .5s}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--fg);font:600 16px/1.5 "Iansui","Huninn","Hachi Maru Pop","Chalkboard SE","Comic Sans MS","PingFang TC","Microsoft JhengHei",sans-serif;transition:background .5s,color .5s}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
@@ -33,7 +36,7 @@ svg{width:100%;height:100%;transform:rotate(-90deg)}
 circle{fill:none;stroke-width:3;stroke-linecap:round}
 .bg{stroke:var(--card)}.fgc{stroke:var(--ac);stroke-dasharray:289.03;transition:stroke-dashoffset .4s linear,stroke .5s}
 .mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
-#time{font-size:calc(var(--ring)*.25);font-weight:200;font-variant-numeric:tabular-nums;line-height:1.1}
+#time{font-size:calc(var(--ring)*.25);font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1.1}
 #sub{color:var(--fg2);font-size:15px}
 .ctl{display:flex;align-items:center;gap:16px}
 .go{min-width:132px;min-height:52px;border:0;border-radius:999px;background:var(--ac);color:var(--on);font-size:18px;transition:background .5s}
