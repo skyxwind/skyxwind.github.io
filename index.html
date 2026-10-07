@@ -93,7 +93,7 @@ input[type=range]{flex:1;accent-color:var(--ac);min-height:44px}
 </section>
 
 <section class="music" aria-label="背景音樂">
- <div class="row"><input type="url" id="url" placeholder="貼上 YouTube 影片或播放清單連結" aria-label="YouTube 連結"><button class="sm" id="ld" type="button">載入</button></div>
+ <div class="row"><input type="url" id="url" placeholder="貼上 YouTube／YouTube Music 影片、直播或播放清單連結" aria-label="YouTube 連結"><button class="sm" id="ld" type="button">載入</button></div>
  <p id="msg" role="status"></p>
  <div class="frame" id="fr"><div id="yt"></div></div>
  <div class="row">
@@ -167,7 +167,18 @@ function bell(notes){
 }
 
 /* YouTube 音樂 */
-function parse(u){try{const x=new URL(u.trim()),l=x.searchParams.get('list');if(l)return{list:l};const v=x.hostname==='youtu.be'?x.pathname.slice(1):x.searchParams.get('v');if(v)return{id:v}}catch(e){}return null}
+function parse(u){
+ u=u.trim();
+ if(/^[\w-]{11}$/.test(u))return{id:u};
+ try{
+  const x=new URL(/^https?:/i.test(u)?u:'https://'+u),l=x.searchParams.get('list'),P=x.pathname.split('/').filter(Boolean);
+  if(l&&!/^RD/.test(l)||l&&!x.searchParams.get('v'))return{list:l};
+  let v=x.hostname==='youtu.be'?P[0]:x.searchParams.get('v');
+  if(!v&&['live','shorts','embed','v'].includes(P[0]))v=P[1];
+  if(v&&/^[\w-]{11}/.test(v))return{id:v.slice(0,11)}
+ }catch(e){}
+ return null
+}
 function msg(t){$('#msg').textContent=t}
 function loadMusic(){
  const p=parse($('#url').value);
@@ -183,7 +194,7 @@ function loadMusic(){
   if(p.list){pv.listType='playlist';pv.list=p.list}
   yt=new YT.Player('yt',{width:'100%',height:'100%',videoId:p.id,playerVars:pv,events:{
    onReady:e=>{done=true;e.target.setVolume(mvol);msg('已載入。專注開始時會自動播放。');if(S.run&&S.phase==='focus')musicPlay()},
-   onError:e=>{done=true;const c=e.data;msg(c===153||c===152?'播放器設定錯誤（'+c+'）：請確認網址是 https:// 開頭，且不是在預覽或沙盒環境中開啟。':c===101||c===150?'這部影片不允許嵌入播放，請換一個連結。':c===2?'連結內容無效，請檢查影片或播放清單 ID。':'無法播放（錯誤 '+c+'），請換一個連結。')}}});
+   onError:e=>{done=true;const c=e.data;msg(c===153||c===152?'播放器設定錯誤（'+c+'）：請確認網址是 https:// 開頭，且不是在預覽或沙盒環境中開啟。':c===101||c===150?'這個內容不允許嵌入播放（部分 YouTube Music 專屬曲目也會如此），請換一個連結。':c===2?'連結內容無效，請檢查影片或播放清單 ID。':'無法播放（錯誤 '+c+'），請換一個連結。')}}});
   setTimeout(()=>{if(!done)msg('載入逾時。播放清單需為公開或不公開列出，且網址須為 https://。')},10000);
  };
  if(window.YT&&YT.Player)make();
